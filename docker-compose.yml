@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    environment:
+      - DATA_FOLDER_PATH=/app/data
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+
+  # Optional: Add a database service if needed in the future
+  # db:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: college_db
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:
