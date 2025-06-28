@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AlertCircle, Wifi, WifiOff } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 import Header from './components/Header';
 import StudentForm from './components/StudentForm';
 import ResultsSection from './components/ResultsSection';
@@ -145,6 +146,9 @@ function App() {
           </p>
         </footer>
       </main>
+      
+      {/* Vercel Analytics */}
+      <Analytics />
     </div>
   );
 }
