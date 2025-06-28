@@ -35,6 +35,15 @@ app.add_middleware(
         "https://*.vercel.app",   # Vercel deployments
         "https://*.railway.app",  # Railway deployments
         "https://*.render.com",   # Render deployments
+        "https://*.netlify.app",  # Netlify deployments
+        "https://*.github.io",    # GitHub Pages
+        "https://*.firebaseapp.com", # Firebase hosting
+        "https://*.appspot.com",  # Google App Engine
+        "https://*.herokuapp.com", # Heroku
+        "https://*.surge.sh",     # Surge.sh
+        "https://*.now.sh",       # Vercel (legacy)
+        "https://*.zeit.co",      # Vercel (legacy)
+        "*",                      # Allow all origins (for development/testing)
     ],
     allow_credentials=True,
     allow_methods=["*"],
