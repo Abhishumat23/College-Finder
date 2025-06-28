@@ -144,6 +144,52 @@ class RecommendationService:
         self.location_cache[location] = None
         return None
 
+    def _extract_state_from_institute_name(self, institute_name: str) -> str:
+        """Extract state from institute name when state field is missing"""
+        if not institute_name:
+            return 'Unknown'
+        
+        institute_name = str(institute_name).upper()
+        
+        # IIT state mappings
+        iit_state_map = {
+            'IIT MADRAS': 'Tamil Nadu',
+            'IIT BOMBAY': 'Maharashtra', 
+            'IIT DELHI': 'Delhi',
+            'IIT KANPUR': 'Uttar Pradesh',
+            'IIT KHARAGPUR': 'West Bengal',
+            'IIT ROORKEE': 'Uttarakhand',
+            'IIT GUWAHATI': 'Assam',
+            'IIT HYDERABAD': 'Telangana',
+            'IIT INDORE': 'Madhya Pradesh',
+            'IIT MANDI': 'Himachal Pradesh',
+            'IIT PATNA': 'Bihar',
+            'IIT ROPAR': 'Punjab',
+            'IIT BHUBANESWAR': 'Odisha',
+            'IIT GANDHINAGAR': 'Gujarat',
+            'IIT JODHPUR': 'Rajasthan',
+            'IIT VARANASI': 'Uttar Pradesh',
+            'IIT PALAKKAD': 'Kerala',
+            'IIT TIRUPATI': 'Andhra Pradesh',
+            'IIT DHANBAD': 'Jharkhand',
+            'IIT BHILAI': 'Chhattisgarh',
+            'IIT GOA': 'Goa',
+            'IIT JAMMU': 'Jammu and Kashmir',
+            'IIT DHARWAD': 'Karnataka'
+        }
+        
+        # Check for exact matches first
+        for iit_name, state in iit_state_map.items():
+            if iit_name in institute_name:
+                return state
+        
+        # Check for partial matches
+        for iit_name, state in iit_state_map.items():
+            if any(word in institute_name for word in iit_name.split()):
+                return state
+        
+        return 'Unknown'
+
     def _get_field(self, row, possible_names):
         # Normalize row keys for robust matching
         norm_row = {self.normalize(str(k)): v for k, v in row.items()}
@@ -191,6 +237,14 @@ class RecommendationService:
                         else:
                             val = 'Unknown'
                     values[key] = val
+                
+                # Special handling for state field - extract from institute name if missing
+                if values['State'] == 'Unknown' or not values['State']:
+                    institute_name = str(values['Institute'])
+                    extracted_state = self._extract_state_from_institute_name(institute_name)
+                    if extracted_state != 'Unknown':
+                        values['State'] = extracted_state
+                        logger.info(f"Extracted state '{extracted_state}' from institute name '{institute_name}'")
                 
                 # Create a unique key for grouping
                 group_key = (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AlertCircle, Wifi, WifiOff } from 'lucide-react';
 import Header from './components/Header';
 import StudentForm from './components/StudentForm';
