@@ -127,9 +127,10 @@ tmp/
 temp/
 
 # Data files (keep structure but ignore actual data)
-data/*.xlsx
-data/*.csv
-data/*.json
+# data/*.xlsx
+# data/*.csv
+# data/*.json
 
 # Keep data directory structure
 !data/.gitkeep
+.vercel
