@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { StudentInput, CollegeRecommendation, FilterOptions } from '../types';
 
-const API_BASE_URL = 'http://localhost:8000'; // FastAPI backend URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'; // FastAPI backend URL
 
 export const useApi = () => {
   const [filters, setFilters] = useState<FilterOptions | null>(null);
